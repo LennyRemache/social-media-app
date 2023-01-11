@@ -1,5 +1,7 @@
 import mongoose from "mongoose"; // will help us setup the user model
 
+// Everything in Mongoose starts with a Schema.
+// Each schema maps to a MongoDB collection and defines the shape of the documents within that collection.
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -40,6 +42,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true } // will give us automatic dates
 );
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema); // https://mongoosejs.com/docs/api/model.html#model_Model
 
 export default User;

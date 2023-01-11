@@ -17,5 +17,30 @@ export const register = async (req, res) => {
       friends,
       location,
     } = req.body;
-  } catch (err) {}
+
+    // encryption process
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    // storing user in DB
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: passwordHash,
+      picturePath,
+      friends,
+      location,
+      viewedProfile: Math.floor(Math.random() * 1000),
+      impressions: Math.floor(Math.random() * 1000),
+    });
+
+    const savedUser = await newUser.save();
+    // Saves this document by inserting a new document into the database if document.isNew is true,
+    // or sends an updateOne operation with just the modified paths if isNew is false.
+
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
