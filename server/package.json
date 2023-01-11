@@ -16,9 +16,12 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
