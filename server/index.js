@@ -12,6 +12,7 @@ import { fileURLToPath } from "url"; /*
                                        url <URL> | <string> The file URL string or URL object to convert to a path.
                                        Returns: <string> The fully-resolved platform-specific Node.js file path. 
                                      */
+import { register } from "./controllers/auth.js";
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -44,8 +45,11 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-
 const upload = multer({ storage: storage }); // anytime a file is uploaded this variable will be used
+
+/* ROUTES WITH FILES */
+// (route, middleware, controller)
+app.post("/auth/register", upload.single("picture"), register); // Routes HTTP POST requests to the specified path with the specified callback functions
 
 /* MONGOOSE SETUP */
 dotenv.config(); // process.env now has the keys and values you defined in your .env file
