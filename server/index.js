@@ -13,6 +13,7 @@ import { fileURLToPath } from "url"; /*
                                        Returns: <string> The fully-resolved platform-specific Node.js file path. 
                                      */
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 import { register } from "./controllers/auth.js";
 
 /* CONFIGURATIONS */
@@ -54,6 +55,7 @@ app.post("/auth/register", upload.single("picture"), register); // Routes HTTP P
 
 /* ROUTES */
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 
 /* MONGOOSE SETUP */
 dotenv.config(); // process.env now has the keys and values you defined in your .env file
