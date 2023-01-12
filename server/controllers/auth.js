@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"; // give us a way to send users a web token to us
 import User from "../models/User.js";
 
 /* REGISTER USER */
-
 // needs to be async because making call to mondgoDB similar to calling an APi
 export const register = async (req, res) => {
   try {
@@ -49,6 +48,17 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Basic Authentication Process
+    const user = await User.findOne({ email: email }); // how to find if a valid user with the email is registered
+    if (!user) return res.status(400).json({ msg: "User does not exist." }); // if not valid then print err message
+
+    const isMatch = bcrypt.compare(password, user.password); // checking inputted password with the passwordHash in saved user in DB
+    if (!isMatch) return res.status(400).json({ msg: "Password Incorrect." });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    delete user.password; // done to prevent password from being sent to the frontend
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
